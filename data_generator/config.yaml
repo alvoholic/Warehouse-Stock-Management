@@ -1,1 +1,17 @@
 
+start_date: "2023-10-24"
+end_date: "2025-10-24"
+warehouses: 10
+products: 5000
+categories: 50
+suppliers: 200
+stock_current_records: 100000
+stock_movements: 500000
+purchase_orders: 100000
+sales_orders: 200000
+output_mode: "csv"
+price_min: 50000
+price_max: 5000000
+max_stock_per_record: 500
+data_quality_pct: 0.05
+random_seed: 42
