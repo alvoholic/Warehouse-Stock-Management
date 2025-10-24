@@ -1,32 +1,3 @@
--- README.md
--- Warehouse Stock Management - Database Design
--- Deliverables included in this single file for convenience:
--- 1) README (this header)
--- 2) ERD placeholder: erd_diagram.png (create using draw.io or dbdiagram.io and add to /database/)
--- 3) schema.sql (below)
---
--- Design choices (short):
--- - Postgres dialect used (BIGSERIAL primary keys, FK constraints, COMMENTs). Replace types if using other RDBMS.
--- - Normalized schema: master tables (products, categories, suppliers, warehouses), transactional tables (purchase_orders, sales_orders, stock_movements), and a current stock materialized table (stock).
--- - stock holds current level per product per warehouse and includes reorder_point / safety_stock.
--- - All changes produce audit entries in audit_log. An example trigger/function is provided to capture inserts/updates/deletes for selected tables.
--- - stock_movements tracks every movement with explicit movement_type (IN/OUT/TRANSFER/ADJUSTMENT). For transfers both from_warehouse_id and to_warehouse_id are used.
--- - Unique and check constraints ensure data quality. Indexes added for common lookup columns.
---
--- File structure suggested when committing to repo:
--- /database/
---   - erd_diagram.png      <-- create from your ERD tool and add
---   - schema.sql           <-- this file
---   - README.md            <-- you may extract the README header into README.md
---
-
--- =========================
--- SCHEMA (PostgreSQL)
--- =========================
-
--- Enable uuid-ossp if you prefer UUIDs (optional)
--- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- 1) Master: warehouses
 CREATE TABLE warehouses (
     warehouse_id BIGSERIAL PRIMARY KEY,
@@ -335,13 +306,3 @@ CREATE TRIGGER trg_audit_purchase_orders
 AFTER INSERT OR UPDATE OR DELETE ON purchase_orders
 FOR EACH ROW EXECUTE FUNCTION fn_audit_trigger();
 
--- =========================
--- Additional safety / best-practice suggestions (document in README.md):
--- 1) Consider moving business logic for stock adjustments into stored procedures so that stock movements and stock table updates are atomic.
--- 2) For high throughput, consider using optimistic concurrency (version column) or explicit row-level locks when updating stock.
--- 3) Consider materialized views for aggregated analytics (e.g., stock aging, fast-moving SKUs) refreshed on schedule.
--- 4) Add monitoring/alerting when stock quantity <= reorder_point.
--- 5) Consider partitioning stock_movements by date if volume is large.
--- =========================
-
--- End of schema.sql
