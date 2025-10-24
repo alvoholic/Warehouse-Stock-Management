@@ -1,7 +1,3 @@
--- ============================================
--- test_cases.sql
--- Full test script for Task 3 Stored Functions
--- ============================================
 
 -- 1) DROP TABLES (SAFE RERUN)
 DROP TABLE IF EXISTS audit_stock_changes CASCADE;
