@@ -1,0 +1,35 @@
+sources:
+  postgres:
+    enabled: true
+    host: "localhost"
+    port: 5432
+    database: "warehouse_db"
+    user: "etl_user"
+    password_env: "PG_PASSWORD" # password read from env
+    incremental_table: "inventory"
+    incremental_column: "last_updated"
+  csv:
+    enabled: true
+    path: "./data/external_movements.csv"
+    incremental_column: "modified_date"
+
+output:
+  out_dir: "./output"
+  parquet: true
+  csv: true
+
+incremental:
+  state_file: "./.etl_state.json"
+  default_lookback_days: 7
+
+report:
+  html: true
+  pdf: false
+
+logging:
+  level: INFO
+
+# domain-specific settings
+dead_stock_days: 180
+holding_cost_rate: 0.20
+default_capacity: 100000
