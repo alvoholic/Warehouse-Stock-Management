@@ -1,0 +1,10 @@
+pyyaml
+psycopg2-binary
+pandas
+pyarrow
+sqlalchemy
+jinja2
+matplotlib
+pytest
+python-dateutil
+reportlab
